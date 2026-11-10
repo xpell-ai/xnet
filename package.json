@@ -1,0 +1,44 @@
+{
+  "name": "@xpell/xnet",
+  "version": "0.2.0",
+  "description": "Tenant-scoped durable Xpell messaging and authenticated Wormholes endpoints.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": ["dist", "README.md"],
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./shared": { "types": "./dist/shared/index.d.ts", "import": "./dist/shared/index.js" },
+    "./server": { "types": "./dist/server/index.d.ts", "import": "./dist/server/index.js" },
+    "./client": { "types": "./dist/client/index.d.ts", "import": "./dist/client/index.js" },
+    "./package.json": "./package.json"
+  },
+  "engines": { "node": ">=22.0.0" },
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "build": "tsc -p .",
+    "test": "pnpm run build && node --test tests/*.test.mjs"
+  },
+  "peerDependencies": { "@xpell/core": "^2.0.7", "@xpell/node": "^2.0.7" },
+  "dependencies": { "better-sqlite3": "12.11.1" },
+  "devDependencies": {
+    "@xpell/core": "workspace:*",
+    "@xpell/node": "workspace:*",
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "^22.0.0",
+    "typescript": "5.9.3"
+  },
+  "xpell": {
+    "_tests": [{
+      "_id": "xnet.script.test", "_title": "XNet durable core acceptance",
+      "_owner": "@xpell/xnet", "_suite": "xnet.package", "_scope": "package",
+      "_runtime": "node", "_profiles": ["xnet.package"],
+      "_tags": ["sqlite", "isolation", "durability", "wormholes", "transport"],
+      "_entry": { "_type": "script", "_script": "test" }
+    }],
+    "_test_profiles": [{ "_id": "xnet.package", "_title": "XNet Phase 1B", "_includes": ["xnet.*"] }]
+  }
+}
